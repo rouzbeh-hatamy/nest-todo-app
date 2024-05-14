@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { randomUUID } from 'crypto';
+import { CreateTaskDto } from 'src/DTO/create-task.dto';
 import { Task, TaskStatus } from 'src/Models/task.model';
 
 @Injectable()
@@ -10,7 +11,8 @@ export class TasksService {
     return this.Tasks;
   }
 
-  createTask(title: string, description: string): Task {
+  createTask(createTaskDto: CreateTaskDto): Task {
+    const { title, description } = createTaskDto;
     const task: Task = {
       id: randomUUID(),
       title,
