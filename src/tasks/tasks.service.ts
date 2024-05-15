@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { CreateTaskDto } from 'src/DTO/create-task.dto';
 import { GetTaskFilterDto } from 'src/DTO/get-tasks-filter.dto';
@@ -28,19 +28,29 @@ export class TasksService {
   }
 
   getTaskById(id: string): Task {
-    return this.Tasks.find((item) => item.id === id);
+    const task = this.Tasks.find((item) => item.id === id);
+    if (!task) {
+      throw new NotFoundException('nadariiim');
+    }
+    return task;
   }
 
   deleteTaskById(id: string): Task[] {
+    const task = this.getTaskById(id);
+    if (!task) {
+      throw new NotFoundException('nadariiim');
+    }
     this.Tasks = this.Tasks.filter((item) => item.id !== id);
     return this.Tasks;
   }
 
   updateTaskById(id: string, status: TaskStatus): Task {
-    this.Tasks = this.Tasks.map((item) =>
-      item.id === id ? { ...item, status } : { ...item },
-    );
-    return this.Tasks.find((item) => item.id === id);
+    const task = this.getTaskById(id);
+    if (!task) {
+      throw new NotFoundException('nadariiim');
+    }
+    task.status = status;
+    return task;
   }
 
   createTask(createTaskDto: CreateTaskDto): Task {
