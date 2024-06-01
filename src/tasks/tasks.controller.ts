@@ -11,8 +11,8 @@ import {
 import { CreateTaskDto } from 'src/DTO/create-task.dto';
 import { GetTaskFilterDto } from 'src/DTO/get-tasks-filter.dto';
 import { UpdateTaskStatusDto } from 'src/DTO/update-task-status.dto';
-import { Task } from 'src/Models/task.model';
 import { TasksService } from './tasks.service';
+import { Task } from './task.entity';
 
 @Controller('tasks')
 export class TasksController {
@@ -27,11 +27,10 @@ export class TasksController {
   //   }
   // }
 
-  // @Get('/:id')
-  // getTaskById(@Param('id') id: string): Task {
-  //   const task = this.tasksService.getTaskById(id);
-  //   return task;
-  // }
+  @Get('/:id')
+  getTaskById(@Param('id') id: string): Promise<Task> {
+    return this.tasksService.getTaskById(id);
+  }
 
   // @Delete('/:id')
   // deleteTaskById(@Param('id') id: string): Task[] {
@@ -39,10 +38,10 @@ export class TasksController {
   //   return tasks;
   // }
 
-  // @Post()
-  // createTask(@Body() createTaskDto: CreateTaskDto): Task {
-  //   return this.tasksService.createTask(createTaskDto);
-  // }
+  @Post()
+  createTask(@Body() createTaskDto: CreateTaskDto): Promise<Task> {
+    return this.tasksService.createTask(createTaskDto);
+  }
 
   // @Patch('/:id/status')
   // updateTaskById(

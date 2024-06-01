@@ -3,6 +3,4 @@ import { Task } from './task.entity';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class TasksRepository extends Repository<Task> {
-    
-}
+export class TasksRepository extends Repository<Task> {}
