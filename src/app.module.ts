@@ -13,6 +13,7 @@ import 'dotenv/config';
       username: process.env.POSTGRES_USERNAME,
       password: process.env.POSTGRES_PASSWORD,
       database: 'task-management',
+      // auto load files ending with entity.ts
       autoLoadEntities: true,
       synchronize: true,
     }),
