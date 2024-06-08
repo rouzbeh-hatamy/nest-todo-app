@@ -6,7 +6,7 @@ import {
 import { DataSource, Repository } from 'typeorm';
 import { User } from './user.entity';
 import { AuthCredentialsDTO } from './DTO/auth-credentials.dto';
-
+import * as bcrypt from 'bcrypt';
 enum userErrors {
   DUPLICATE_USERNAME = '23505',
 }
@@ -18,7 +18,11 @@ export class UsersRepository extends Repository<User> {
   }
   async createUser(authCredentialsDto: AuthCredentialsDTO): Promise<void> {
     const { username, password } = authCredentialsDto;
-    const user = this.create({ username, password });
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = this.create({ username, password: hashedPassword });
+
     try {
       await this.save(user);
     } catch (error) {
