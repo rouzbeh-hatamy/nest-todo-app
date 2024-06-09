@@ -19,7 +19,7 @@ export class AuthService {
     const user = await this.usersRepository.findOne({ where: { username } });
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      return 'okk';
+      return 'ok';
     }
 
     throw new UnauthorizedException('username or password is incorrect');
