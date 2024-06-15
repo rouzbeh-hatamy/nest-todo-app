@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { Task } from './task.entity';
-import { GetTaskFilterDto } from 'src/DTO/get-tasks-filter.dto';
+import { GetTaskFilterDto } from 'src/tasks/DTO/get-tasks-filter.dto';
 
 //har ja @Injectable() zadi oontaraf ham @Inject() niazeh
 @Injectable()
