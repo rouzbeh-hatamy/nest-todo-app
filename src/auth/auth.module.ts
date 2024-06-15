@@ -8,6 +8,7 @@ import { User } from './user.entity';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import 'dotenv/config';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -25,7 +26,9 @@ import 'dotenv/config';
       useFactory: (dataSource: DataSource) => new UsersRepository(dataSource),
       inject: [DataSource],
     },
+    JwtStrategy,
   ],
   controllers: [AuthController],
+  exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}
