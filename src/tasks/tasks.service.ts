@@ -13,8 +13,8 @@ export class TasksService {
     private tasksRepository: TasksRepository,
   ) {}
 
-  async getAllTasks(filterDto?: GetTaskFilterDto): Promise<Task[]> {
-    return this.tasksRepository.getTasks(filterDto);
+  async getAllTasks(user: User, filterDto?: GetTaskFilterDto): Promise<Task[]> {
+    return this.tasksRepository.getTasks(user, filterDto);
   }
   async getTaskById(id: string): Promise<Task> {
     const task = await this.tasksRepository.findOne({ where: { id } });
@@ -24,12 +24,12 @@ export class TasksService {
     return task;
   }
 
-  async deleteTaskById(id: string): Promise<Task[]> {
+  async deleteTaskById(id: string, user: User): Promise<Task[]> {
     const task = await this.tasksRepository.delete(id);
     if (task.affected === 0) {
       throw new NotFoundException('nadariiim');
     }
-    const tasks = await this.getAllTasks();
+    const tasks = await this.getAllTasks(user);
     return tasks;
   }
 

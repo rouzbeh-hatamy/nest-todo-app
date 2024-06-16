@@ -19,5 +19,7 @@ export class Task {
 
   @ManyToOne(() => User, (user) => user.tasks, { eager: false })
   @Exclude({ toPlainOnly: true })
+  // exclude mige ke in ro nafrest, bayad ba interceptor mortabetesh (TransformInterceptor) hamrah bashe
+  // user req mizane => process mishe => response amadeh mishe => global interceptor rooye response process mikone va exclude ha ro hazf mikone => response ferestadeh mishe
   user: User;
 }
