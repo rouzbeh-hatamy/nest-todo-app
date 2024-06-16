@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository, DataSource } from 'typeorm';
 import { Task } from './task.entity';
 import { GetTaskFilterDto } from 'src/tasks/DTO/get-tasks-filter.dto';
+import { User } from 'src/auth/user.entity';
 
 //har ja @Injectable() zadi oontaraf ham @Inject() niazeh
 @Injectable()
@@ -10,8 +11,9 @@ export class TasksRepository extends Repository<Task> {
     super(Task, dataSource.createEntityManager());
   }
 
-  async getTasks(filterDto?: GetTaskFilterDto): Promise<Task[]> {
+  async getTasks(user: User, filterDto?: GetTaskFilterDto): Promise<Task[]> {
     const query = this.createQueryBuilder('task');
+    query.where({ user });
 
     if (filterDto) {
       const { status, search } = filterDto;
