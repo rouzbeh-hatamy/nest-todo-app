@@ -1,10 +1,20 @@
 import { Test } from '@nestjs/testing';
 import { TasksService } from './tasks.service';
 import { TasksRepository } from './tasks.repository';
+import { DataSource } from 'typeorm';
+import { User } from 'src/auth/user.entity';
 
 const mockTasksRepository = () => ({
   getTasks: jest.fn(),
 });
+const mockDataSource = {};
+
+const mockUser: User = {
+  username: 'test',
+  id: '0',
+  tasks: [],
+  password: 'any',
+};
 
 describe('TasksService', () => {
   let tasksService: TasksService;
@@ -18,7 +28,15 @@ describe('TasksService', () => {
     const module = await Test.createTestingModule({
       providers: [
         TasksService,
-        { provide: TasksRepository, useFactory: mockTasksRepository },
+        {
+          provide: 'TASKS_REPOSITORY',
+          useValue: TasksRepository,
+        },
+        {
+          provide: TasksRepository,
+          useFactory: () => mockTasksRepository(),
+        },
+        { provide: DataSource, useValue: mockDataSource },
       ],
     }).compile();
 
@@ -27,7 +45,7 @@ describe('TasksService', () => {
   });
 
   describe('getTasks', () => {
-    it('calls TasksRepository.getTasks and returns the result', () => {
+    it('calls TasksRepository.getTasks and returns the result', async () => {
       expect(tasksRepository.getTasks).not.toHaveBeenCalled();
     });
   });
