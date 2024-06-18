@@ -1,4 +1,4 @@
-import { TaskStatus } from 'src/Models/task-status.enum';
+import { TaskStatus } from '../task.entity';
 
 export class GetTaskFilterDto {
   status?: TaskStatus;
